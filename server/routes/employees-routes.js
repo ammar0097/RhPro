@@ -2,9 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  console.log('GET Request in Places');
-  res.json({message: 'It works!'});
-});
+const employeeController = require('../controllers/employee-controller');
+
+router.get('/',employeeController.getAllEmployees);
 
 module.exports = router;
