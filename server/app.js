@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.use('/employees',employeesRoutes);
 
-sequelize.sync({force : true}).then(
+sequelize.sync().then(
     app.listen(3001, () => {
         console.log('hello from express');
     })).catch(err => {
