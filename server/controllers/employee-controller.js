@@ -29,8 +29,14 @@ const addEmployee = (req, res, next) => {
 };
 
 const deleteEmployee = (req, res, next) => {
-  
+  const eid = req.params.id;
+  Employee.destroy({ where: { id: eid } })
+    .then(res.json({ message: "deleted with success" }))
+    .catch(res.json({ message: "error" }));
 };
+
+
 
 exports.addEmployee = addEmployee;
 exports.getAllEmployees = getAllEmployees;
+exports.deleteEmployee = deleteEmployee;
