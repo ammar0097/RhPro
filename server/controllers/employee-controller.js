@@ -8,8 +8,6 @@ const getAllEmployees = (req, res, next) => {
     .catch((err) => {
       res.json(err);
     });
-
- 
 };
 
 const addEmployee = (req, res, next) => {
@@ -30,8 +28,9 @@ const addEmployee = (req, res, next) => {
     .catch(res.json({ message: "error" }));
 };
 
-
-
+const deleteEmployee = (req, res, next) => {
+  
+};
 
 exports.addEmployee = addEmployee;
 exports.getAllEmployees = getAllEmployees;
