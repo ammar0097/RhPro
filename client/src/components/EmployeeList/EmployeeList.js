@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Th,
   Td,
+  Spinner,
   TableContainer,
   Center,
   Button,
@@ -15,11 +16,15 @@ import {
 import axios from "axios";
 
 const EmployeeList = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [employees, setEmployees] = useState();
 
   const fetchData = useCallback(async () => {
     axios.get("http://localhost:3001/employees/").then((res) => {
-      setEmployees(res.data);
+      setTimeout(function () {
+        setEmployees(res.data);
+        setIsLoading(false);
+      }, 500);
     });
   }, []);
 
@@ -28,14 +33,14 @@ const EmployeeList = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchData();
-    console.log("fetch");
   }, [fetchData]);
 
   return (
     <SimpleGrid columns={1} spacing={10}>
       <Center>
-        <Box boxShadow='base' rounded='md'>
+        <Box boxShadow="base" rounded="md">
           <TableContainer>
             <Table variant="simple">
               <Thead>
@@ -49,25 +54,33 @@ const EmployeeList = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {(employees || []).map((val, key) => {
-                  return (
-                    <Tr>
-                      <Td>{val.name}</Td>
-                      <Td>{val.age}</Td>
-                      <Td>{val.country}</Td>
-                      <Td>{val.position}</Td>
-                      <Td>{val.salary}</Td>
-                      <Td>
-                        <Button colorScheme="red" size="md">
-                          Delete
-                        </Button>
-                        <Button colorScheme="yellow" size="md">
-                          Update
-                        </Button>
-                      </Td>
-                    </Tr>
-                  );
-                })}
+                {isLoading ? (
+                  <Td>
+                    <Center>
+                    <Spinner size='xl' />
+                    </Center>
+                  </Td>
+                ) : (
+                  (employees || []).map((val, key) => {
+                    return (
+                      <Tr>
+                        <Td>{val.name}</Td>
+                        <Td>{val.age}</Td>
+                        <Td>{val.country}</Td>
+                        <Td>{val.position}</Td>
+                        <Td>{val.salary}</Td>
+                        <Td>
+                          <Button colorScheme="red" size="md">
+                            Delete
+                          </Button>
+                          <Button ml={2} colorScheme="yellow" size="md">
+                            Update
+                          </Button>
+                        </Td>
+                      </Tr>
+                    );
+                  })
+                )}
               </Tbody>
             </Table>
           </TableContainer>
